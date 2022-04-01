@@ -1,0 +1,62 @@
+<%- include('layouts/head.ejs') -%>
+</head>
+
+<body>
+    <%- include('layouts/nav.ejs') -%>
+    <section class="py-5">
+        <div class="py-5 d-flex justify-content-center">
+            <form class="py-5">
+                <h1 class="h3 mb-3 py-4 fw-normal">Login</h1>
+                <div class="form-floating py-1">
+                    <input type="text" class="form-control" name="email" placeholder="Email" required
+                        onChange={handleChange} />
+                    <label>Email</label>
+                </div>
+                <div class="form-floating py-1">
+                    <input type="password" class="form-control" name="password" placeholder="Password" required
+                        onChange={handleChange} />
+                    <label>Password</label>
+                </div>
+                <div class="py-3">
+                    <button class="w-100 btn btn-lg btn-dark" type="button" onClick={handleLogin}
+                        disabled={!form.email || !form.password}>Sign in</button>
+                </div>
+                <div class="py-3">
+                    <button type="button" class="w-100 btn btn-lg btn-light" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                        Did you forget your password?
+                    </button>
+                </div>
+                <p>You do not have an account?<a class="nav-link" href="/register">Sign up</a></p>
+            </form>
+        </div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Recovery password</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please enter your email on the following field</p>
+                            <form>
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="email" placeholder="Email"
+                                        required onChange={handleChange} />
+                                    <label>Email</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" onClick={recoveryPass}>Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<%- include('layouts/footer.ejs') -%>

@@ -1,18 +1,18 @@
 var express = require('express');
 var router = express.Router();
-const userController = require('../controllers/userController');
-
+var con = require('../util/database');
+var User = require('../models/user');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/index', userController.index);
+router.get('/registro', function(req, res, next) {
+  res.render('./user/index');
 
-router.get('/crear', userController.crear);
+});
 
-router.post('/guardar', userController.guardar);
 
 
 
