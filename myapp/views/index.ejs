@@ -1,11 +1,22 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<%- include ./layouts/cabeza.ejs %> 
+  <a href="/users/crear" class="btn btn-primary" type="button">Registrarse</a>
+  <br>
+  <br>
+  <table class="table table-light">
+    <thead class="thead-light">
+      <tr>
+        <th>Name</th>
+        <th>Correo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for( let user = 0; user < users.length; user++ ) { %>
+        <tr>
+          <td><%= users[user].name %></td>
+          <td><%= users[user].email %></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+
+  <%- include ./layouts/pie.ejs %> 

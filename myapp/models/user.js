@@ -1,19 +1,10 @@
-var conexion = require('../database/conexion');
+module.exports ={
+    
+    getAll(conexion, funcion) {
+        conexion.query("SELECT * FROM users", funcion);
+    },
 
-class User {
-    constructor(id, name, email, password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-    static get(){
-
-        conexion.query("SELECT * FROM users")
-
-
+    guardar(conexion, datos, funcion) {
+        conexion.query("INSERT INTO users (name,email,password) VALUES(?,?,?)", [datos.name, datos.email, datos.password])
     }
 }
-
-module.exports = User;
