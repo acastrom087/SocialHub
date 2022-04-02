@@ -1,19 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var con = require('../util/database');
-var User = require('../models/user');
+const userController = require('../controllers/user');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
-router.get('/registro', function(req, res, next) {
-  res.render('./user/index');
-
-});
-
-
-
+router.post('/logout', userController.logout);
 
 module.exports = router;
