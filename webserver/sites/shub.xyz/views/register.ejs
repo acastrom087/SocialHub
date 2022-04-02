@@ -6,45 +6,58 @@
     <section class="py-5">
         <div class="py-5 d-flex justify-content-center">
             <div class="w-25">
-                <form class="needs-validation" novalidate>
+                <form method="POST" action="/register" class="needs-validation" novalidate id="form">
                     <h1 class="h3 mb-3 py-4 fw-normal text-center">Registration form</h1>
                     <div class="form-floating py-1">
                         <input id="validationCustomName" type="text" class="form-control" name="name"
-                            placeholder="Fullname" required onChange={handleChange} />
+                            placeholder="Fullname" required/>
                         <label for="validationCustomName">Name</label>
                     </div>
                     <div class="form-floating py-1">
-                        <input type="text" class="form-control" name="surname" placeholder="Surname" required
-                            onChange={handleChange} />
+                        <input type="text" class="form-control" name="surname" placeholder="Surname" required />
                         <label>Surname</label>
                     </div>
                     <div class="form-floating py-1">
-                        <input type="text" class="form-control" name="email" placeholder="Email" required
-                            onChange={handleChange} />
+                        <input type="text" class="form-control" name="email" placeholder="Email" required />
                         <label>Email</label>
                     </div>
                     <div class="form-floating py-1">
-                        <input type="password" class="form-control" name="password" placeholder="Password" required
-                            onChange={handleChange} />
+                        <input type="password" class="form-control" name="password" placeholder="Password" required />
                         <label>Password</label>
                     </div>
                     <div class="form-floating py-1">
-                        <input type="date" class="form-control" name="birthday" placeholder="Birthday" required
-                            onChange={handleChange} />
+                        <input type="date" class="form-control" name="birthday" placeholder="Birthday" required />
                         <label>Date of birth</label>
                     </div>
                     <div class="form-floating py-1">
-                        <select id="gender" name="gender" class="form-control" required onChange={handleChange}>
+                        <select id="gender" name="gender" class="form-control" required>
                             <option>Choose your gender</option>
                             <option value="Female">Female</option>
                             <option value="Male">Male</option>
                         </select>
                     </div>
                     <div class="py-4">
-                        <button class="w-100 btn btn-lg btn-dark" type="button" onClick={submit}>Sign up</button>
+                        <button class="w-100 btn btn-lg btn-dark" type="submit" id="register">Sign up</button>
                     </div>
                 </form>
             </div>
         </div>
     </section>
+    <script>
+        const register = document.getElementById('register');
+        const data = new FormData(document.getElementById('form'))
+        const plainFormData = Object.fromEntries(data.entries());
+
+        /*register.addEventListener('click', () => {
+            fetch('http://shub.xyz:3000/register', {
+                method: 'POST',
+                body: JSON.stringify(plainFormData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .catch(err => console.log(err));
+        });*/
+    </script>
     <%- include('layouts/footer.ejs') -%>
