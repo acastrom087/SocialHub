@@ -2,8 +2,7 @@ var Schedule = require('../models/schedule');
 
 exports.getAll = (req, res, next) =>{
 
-    schedule.getAll(function(err,data){
-        //console.log(data);
+    Schedule.getAll(function(err,data){
         if(err){
             console.log('error');
         }else{
@@ -17,12 +16,14 @@ exports.create = (req, res, next) =>{
 }
 
 exports.save = (req, res, next) =>{
-    const day = req.params.day;
-    const time = req.params.time;
-    const schedule = new Schedule(day, time)
-    //console.log(req.body);
-    schedule.save(function(err,data){
-        console.log(data);
-        console.log(err);
-    })
+    const day = req.body.day;
+    const time = req.body.time;
+    const schedule = new Schedule(day, time) 
+    schedule.save();
+}
+
+exports.delete = (req, res, next) =>{
+    Schedule.delete(req.params.id);
+    res.redirect('/schedule/schedule');
+    console.log('delete');
 }

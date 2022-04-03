@@ -22,8 +22,8 @@
                             <%= datos[dato].time %>
                         </td>
                         <td>
-                            <button class="btn btn-primary" type="button">Delete</button>
-                            <button class="btn btn-primary" type="button">Edit</button>
+                            <a href="delete/<%- datos[dato].id %> "><button class="btn btn-primary" type="button">Delete</button></a>
+                            <a href="edit/<%- datos[dato].id %>"><button class="btn btn-primary" type="button">Edit</button></a>
                         </td>
                     </tr>
                     <% } %>

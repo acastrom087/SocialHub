@@ -1,10 +1,10 @@
-<<<<<<< HEAD
+//<<<<<<< HEAD
 var mysql = require('../util/database')
 var con = require('../util/database');
-=======
+//=======
 var db = require('../util/database')
 
->>>>>>> da5420c0a6562a8cbf29e6f0fd7f692dd6c9df9c
+//>>>>>>> da5420c0a6562a8cbf29e6f0fd7f692dd6c9df9c
 class User {
     constructor(name, surname, email, password, birthday, gender, id) {
         this.name = name;
