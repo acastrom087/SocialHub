@@ -1,5 +1,5 @@
 var mysql = require('../util/database')
-
+var con = require('../util/database');
 class User {
     constructor(name, surname, email, password, birthday, gender, id) {
         this.name = name;

@@ -1,0 +1,36 @@
+<%- include('../layouts/head.ejs') -%>
+    <div class="container">
+        <a href="create"> <button class="btn btn-dark" type="button">Add</button></a>
+        <br/>
+        <br/>
+        <table class="table table-light">
+            <thead class="thead-light">
+                <tr>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <% for( let dato=0; dato < datos.length; dato++ ) { %>
+                    <tr>
+                        <td>
+                            <%= datos[dato].day %>
+                        </td>
+                        <td>
+                            <%= datos[dato].time %>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" type="button">Delete</button>
+                            <button class="btn btn-primary" type="button">Edit</button>
+                        </td>
+                    </tr>
+                    <% } %>
+
+            </tbody>
+        </table>
+    </div>
+
+
+<%- include('../layouts/footer.ejs') -%>
