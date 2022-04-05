@@ -18,7 +18,7 @@
                         Welcome <%= user.name %> <%= user.surname %>
                     </button>
                     <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
-                        <li><button type="button" class="dropdown-item">Settings</button></li>
+                        <li><a href="/users/settings" class="dropdown-item">Settings</a></li>
                         <li>
                             <form action="/logout" method="POST">
                                 <button type="submit" class="dropdown-item">
