@@ -19,8 +19,9 @@
                     </button>
                     <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
                         <li><button type="button" class="dropdown-item">Settings</button></li>
-                        <li><button type="submit" class="dropdown-item">
-                                <form action="/logout" method="POST">
+                        <li>
+                            <form action="/logout" method="POST">
+                                <button type="submit" class="dropdown-item">
                                     <span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                             fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd"
@@ -30,8 +31,10 @@
                                         </svg>
                                     </span>
                                     <span class="px-1">Log out</span>
-                                </form>
-                            </button></li>
+                                </button>
+                            </form>
+
+                        </li>
                     </ul>
                 </div>
             </div>

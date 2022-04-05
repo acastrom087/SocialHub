@@ -47,5 +47,5 @@ exports.getDashboard= async (req, res, next) => {
 
 exports.logout = (req, res, next) => {
     res.clearCookie("token");
-    res.end();
+    res.redirect('/login');
 }
