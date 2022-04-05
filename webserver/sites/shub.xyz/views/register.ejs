@@ -43,21 +43,4 @@
             </div>
         </div>
     </section>
-    <script>
-        const register = document.getElementById('register');
-        const data = new FormData(document.getElementById('form'))
-        const plainFormData = Object.fromEntries(data.entries());
-
-        /*register.addEventListener('click', () => {
-            fetch('http://shub.xyz:3000/register', {
-                method: 'POST',
-                body: JSON.stringify(plainFormData),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(res => res.json())
-                .catch(err => console.log(err));
-        });*/
-    </script>
     <%- include('layouts/footer.ejs') -%>

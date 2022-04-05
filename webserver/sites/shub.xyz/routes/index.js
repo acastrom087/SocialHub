@@ -2,24 +2,23 @@ var express = require('express');
 var router = express.Router();
 
 const userController = require('../controllers/userController');
+const homeController = require('../controllers/home');
+const authController = require('../controllers/auth');
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', homeController.getHome);
 
-router.get('/login', function(req, res, next) {
-  res.render('../views/login.ejs');
-});
+router.get('/login', homeController.getLogin);
 
-router.get('/register', function(req, res, next) {
-  res.render('../views/register.ejs');
-});
+router.get('/register', homeController.getRegister);
 
-router.post('/login', userController.login);
+router.post('/login', authController.login);
 
 router.post('/register', userController.addUsers);
 
+router.get('/dashboard', authController.getDashboard);
+
+router.post('/logout', authController.logout);
 
 module.exports = router;
