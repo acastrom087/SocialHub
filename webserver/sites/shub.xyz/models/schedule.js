@@ -1,25 +1,30 @@
 var con = require('../util/database');
 
 class Schedule{
-    constructor( day, time, id ){
-        this.day = day;
-        this.time = time;
+    constructor( date, id ){
+        this.date = date;
         this._id = id;
     }
 
     static getAll = (funcion) =>{
-        con.query("SELECT id, date_format(day, '%W ') as 'day', time_format(time, '%H : %i') as time FROM schedule order by day",
+        con.query("SELECT id, date_format(date, '%W') as 'day', time_format(date, '%H : %i') as hour FROM socialhub.schedule order by day",
         funcion);
     }
 
-    save=() =>{
-        
-        console.log(this.day + ' ' + this.time + ' ')
-        con.query("INSERT INTO schedule (day, time) VALUES (?, ?)", [this.day, this.time]);
+    save=(funcion) =>{  
+            con.query("INSERT INTO schedule (date) VALUES (?)", [this.date],funcion);
+        }
+                   
+            //con.query("UPDATE schedule set date = ? WHERE id = ?", [this.date,  this.id]);
+
+    static delete=(id, funcion) =>{
+            con.query("DELETE FROM schedule WHERE id = ?", [id], funcion);
+            
     }
 
-    static delete=(id) =>{
-        con.query("DELETE FROM schedule WHERE id = ?", [id]);
+    static findById = (id, funcion) =>{
+        //con.query("SELECT id, date_format(date, '%d/%m/%Y %H:%i') as 'date' FROM socialhub.schedule  WHERE id = ?", [id], funcion)
+        con.query("SELECT id, date FROM socialhub.schedule  WHERE id = ?", [id], funcion)
     }
 }
 

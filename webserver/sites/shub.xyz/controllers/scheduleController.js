@@ -12,18 +12,38 @@ exports.getAll = (req, res, next) =>{
 }
 
 exports.create = (req, res, next) =>{
-    res.render('schedule/create');
+    res.render('schedule/create', {data: null});
 }
 
 exports.save = (req, res, next) =>{
-    const day = req.body.day;
-    const time = req.body.time;
-    const schedule = new Schedule(day, time) 
-    schedule.save();
+    const id = req.body.id
+    const date = req.body.date;
+    const schedule = new Schedule(date, id); 
+    console.log(date,id);
+    schedule.save(function(err){
+        if(err){
+            console.log(err);
+        }else{
+
+            res.redirect('/schedule/schedule');
+        }
+
+    })
+    
 }
 
 exports.delete = (req, res, next) =>{
-    Schedule.delete(req.params.id);
-    res.redirect('/schedule/schedule');
-    console.log('delete');
+    Schedule.delete(req.params.id)
+    res.redirect('/schedule/schedule'); 
 }
+
+exports.edit = (req, res, next) =>{
+    Schedule.findById(req.params.id, (err, data) =>{
+        console.log(data);
+        res.render('schedule/create', {data: data})
+    })
+   
+}
+
+
+

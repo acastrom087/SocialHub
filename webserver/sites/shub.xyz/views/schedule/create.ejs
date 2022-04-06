@@ -7,13 +7,9 @@
             <form action="save" method="post" class="needs-validation" novalidate>
                 <h1 class="h3 mb-3 py-4 fw-normal text-center">Schedule</h1>
                 <div class="form-floating py-1">
-                    <input type="time" class="form-control" name="time" placeholder="Password" required
-                        onChange={handleChange} />
-                    <label>Time</label>
-                </div>
-                <div class="form-floating py-1">
-                    <input type="date" class="form-control" name="day" placeholder="Birthday" required
-                        onChange={handleChange} />
+                    <input type="datetime-local" class="form-control" name="date" placeholder="Date" required
+                        onChange={handleChange} value="<%- data? data[0].date : "" %> "  />
+                        <input type="hidden" class="form-control" value="<%- data? data[0].id : " " %> " name="id" />
                     <label>Date </label>
                 </div>
                 <div class="py-3">
