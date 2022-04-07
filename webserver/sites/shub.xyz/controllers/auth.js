@@ -2,9 +2,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const auth = require('../util/auth');
 
-
 const User = require('../models/user');
-const salt = 10;
+
+
 
 exports.login = (req, res, next) => {
     const { email, password } = req.body;
@@ -14,9 +14,14 @@ exports.login = (req, res, next) => {
             if (user) {
                 const passwordMatch = await bcrypt.compare(password, user.password);
                 if (passwordMatch) {
-                    const token = jwt.sign({ email }, 'secretKey');
-                    res.cookie('token', token, { httpOnly: true, secure: false });
-                    res.redirect('/dashboard');
+                    const jToken = jwt.sign({ email }, 'secretKey');
+                    if (user.token) {
+                        console.log(true);
+                    }
+                    else {
+                        res.cookie('token', jToken, { httpOnly: true, secure: false });
+                        res.redirect('/dashboard');
+                    }
                 }
             }
 
@@ -36,19 +41,6 @@ exports.getDashboard = async (req, res, next) => {
     if (user) {
         return res.render('dashboard', {
             user: user
-        })
-    }
-    return res.redirect('/login');
-};
-
-exports.getSettings = async (req, res, next) => {
-    const token = req.cookies.token;
-    const user = await auth.authorize(token);
-    const code = auth.twoFA();
-    if (user) {
-        return res.render('users/settings', {
-            user: user,
-            QRcode: code
         })
     }
     return res.redirect('/login');

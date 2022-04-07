@@ -55,12 +55,53 @@
                 <div class="py-5 d-flex justify-content-center">
                     <div class="w-50">
                         <h2 class="h3 mb-3 py-4 fw-normal text-center">2FA Authentication</h2>
-                        <div>
-                            <img src="<%= QRcode %>" alt="">
+                        <div class="py-4">
+                            <% if (!user.token) { %>
+                            <button class="w-100 btn btn-lg btn-dark" type="button" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop">Set authenticator</button>
+                            <%} else { %>
+                            <button class="w-100 btn btn-lg btn-dark" type="button">Disable authenticator</button>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Authenticator Configuration</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="/users/tfa">
+                                <div class="modal-body">
+                                    <p>Please scan the QR Code below on your google authenticator</p>
+                                    <div class="d-flex justify-content-center">
+                                        <img src="data:image/png;base64,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"
+                                            alt="" width="260" height="260">
+                                    </div>
+                                    <p>Please enter the six digit code</p>
+
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" name="token" placeholder="Token"
+                                            required />
+                                        <label>Code</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success">Save</button>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-<%- include('../layouts/footer.ejs') -%>
+    <%- include('../layouts/footer.ejs') -%>

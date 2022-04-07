@@ -6,13 +6,14 @@ var db = require('../util/database')
 
 //>>>>>>> da5420c0a6562a8cbf29e6f0fd7f692dd6c9df9c
 class User {
-    constructor(name, surname, email, password, birthday, gender, id) {
+    constructor(name, surname, email, password, birthday, gender, token, id) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.birthday = birthday;
         this.gender = gender;
+        this.token = token;
         this._id = id;
     }
 
@@ -37,6 +38,18 @@ class User {
                     });
             }
 
+        });
+    }
+
+    setToken = (token) => {
+        return new Promise((resolve, reject) => {
+            db.query('UPDATE Users SET token = ? WHERE id = ?',
+            [token, this._id], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(results[0]);
+            });
         });
     }
 
