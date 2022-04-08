@@ -1,6 +1,6 @@
 const QRCode = require('qrcode');
 const speaky = require('speakeasy');
-const auth = require('../util/auth');
+const auth = require('../authentication/auth');
 
 const User = require('../models/user');
 
