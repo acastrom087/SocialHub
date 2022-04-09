@@ -12,10 +12,13 @@ class Schedule{
     }
 
     save=(funcion) =>{  
+        if(this._id == " "){
             con.query("INSERT INTO schedule (date) VALUES (?)", [this.date],funcion);
+        }else{
+            con.query("UPDATE schedule set date = ? WHERE id = ?", [this.date,  this._id],funcion);
+        }
         }
                    
-            //con.query("UPDATE schedule set date = ? WHERE id = ?", [this.date,  this.id]);
 
     static delete=(id, funcion) =>{
             con.query("DELETE FROM schedule WHERE id = ?", [id], funcion);

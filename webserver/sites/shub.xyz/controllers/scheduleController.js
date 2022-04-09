@@ -40,7 +40,7 @@ exports.delete = (req, res, next) =>{
 exports.edit = (req, res, next) =>{
     Schedule.findById(req.params.id, (err, data) =>{
         console.log(data);
-        res.render('schedule/create', {data: data})
+        res.render('schedule/edit', {data: data})
     })
    
 }
