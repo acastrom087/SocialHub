@@ -5,6 +5,6 @@ const authController = require('../controllers/auth');
 
 router.get('/settings', userController.getSettings);
 
-router.post('/tfa', userController.enableTFA);
+router.post('/enable-token', userController.enableTFA);
 
 module.exports = router;

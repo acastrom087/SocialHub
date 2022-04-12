@@ -7,7 +7,7 @@ module.exports = {
 
     authorize(token) {
         if (token) {
-            const { email } = decode(token);
+            const { id, email } = decode(token);
             const user = User.findUser(email);
             if (!user) {
                 return res.redirect('/login');
@@ -19,7 +19,7 @@ module.exports = {
     verified(key, token) {
         return speaky.totp.verify({
             secret: key,
-            encoding: 'ascii',
+            encoding: 'base32',
             token: token
         })
     }
