@@ -11,9 +11,13 @@ router.get('/', homeController.getHome);
 
 router.get('/login', homeController.getLogin);
 
-router.get('/register', homeController.getRegister);
-
 router.post('/login', authController.login);
+
+router.get('/login-authentication', authController.loginTFA);
+
+router.post('/login-authentication', authController.authentication);
+
+router.get('/register', homeController.getRegister);
 
 router.post('/register', userController.addUsers);
 

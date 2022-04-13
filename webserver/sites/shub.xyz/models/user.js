@@ -1,29 +1,25 @@
 
-const mysql = require('../util/database')
-const con = require('../util/database');
-const db = require('../util/database')
+const db = require('../util/database');
+const { authenticator } = require('otplib')
+const secret = authenticator.generateSecret()
 
 class User {
-    constructor(name, surname, email, password, birthday, gender, base32, pathURL, isAdmin, hasAuth, id) {
+    constructor(name, surname, email, password, birthday, gender, hasAuth=false, id) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.birthday = birthday;
         this.gender = gender;
-        this.isAdmin = isAdmin;
-        this.secret_base32 = base32;
-        this.secret_path_url = pathURL;
         this.hasAuth = hasAuth;
-        this._id = id;
+        this.id = id;
     }
 
     save = () => {
         return new Promise((resolve, reject) => {
-            if (this._id) {
-                db.query('UPDATE Users SET name = ?, surname = ?, email = ?, password = ?, birthday = ?, gender = ?, isAdmin = ?, secret_base32 = ?, secret_path_url = ?, hasAuth = ? WHERE id = ?',
-                    [this.name, this.surname, this.email, this.password, this.birthday, this.gender, this.isAdmin,
-                    this.secret_base32, this.secret_path_url, this.hasAuth, this._id], (err, results) => {
+            if (this.id > 0) {
+                db.query('UPDATE Users SET name = ?, surname = ?, email = ?, password = ?, birthday = ?, gender = ?, hasAuth = ? WHERE id = ?',
+                    [this.name, this.surname, this.email, this.password, this.birthday, this.gender, this.hasAuth, this.id], (err, results) => {
                         if (err) {
                             return reject(err);
                         }
@@ -31,8 +27,8 @@ class User {
                     });
             }
             else {
-                db.query('INSERT INTO Users (name, surname, email, password, birthday, gender, secret_base32, secret_path_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                    [this.name, this.surname, this.email, this.password, this.birthday, this.gender, this.secret_base32, this.secret_path_url], (err, results) => {
+                db.query('INSERT INTO Users (name, surname, email, password, birthday, gender, secret) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    [this.name, this.surname, this.email, this.password, this.birthday, this.gender, secret], (err, results) => {
                         if (err) {
                             return reject(err);
                         }
@@ -43,10 +39,10 @@ class User {
         });
     }
 
-    static setToken = (response) => {
+    static updateToken = (value, id) => {
         return new Promise((resolve, reject) => {
             db.query('UPDATE Users SET hasAuth = ? WHERE id = ?',
-                [response, this._id], (err, results) => {
+                [value, id], (err, results) => {
                     if (err) {
                         return reject(err);
                     }
