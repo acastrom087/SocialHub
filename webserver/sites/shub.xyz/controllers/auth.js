@@ -15,7 +15,7 @@ exports.login = (req, res, next) => {
                 const passwordMatch = await bcrypt.compare(password, user.password);
                 if (passwordMatch) {
                     const jToken = jwt.sign({ email }, 'secretKey');
-                    if (user.token) {
+                    if (user.hasAuth) {
                         console.log(true);
                     }
                     else {
