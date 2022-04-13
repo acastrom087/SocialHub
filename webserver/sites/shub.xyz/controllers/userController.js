@@ -74,8 +74,6 @@ exports.enableTFA = async (req, res, next) => {
     const tokenMatch = authenticator.verify({ token, secret });
     const regUser = new User(user.name, user.surname, user.email, user.password, user.birthday, user.gender, tokenMatch, user.id);
 
-    console.log(regUser);
-
     if (regUser) {
         if (tokenMatch) {
             regUser.save()
