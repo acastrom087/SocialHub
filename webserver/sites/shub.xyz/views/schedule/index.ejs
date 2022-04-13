@@ -8,6 +8,7 @@
                 <tr>
                     <th>Day</th>
                     <th>Hour</th>
+                    <th>Image</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -20,6 +21,9 @@
                         </td>
                         <td>
                             <%= datos[dato].hour %>
+                        </td>
+                        <td>
+                            <%= datos[dato].image %>
                         </td>
                         <td>
                             <a href="delete/<%- datos[dato].id %> "><button class="btn btn-primary" type="button">Delete</button></a>

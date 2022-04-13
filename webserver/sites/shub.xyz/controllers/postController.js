@@ -1,5 +1,5 @@
 var Instagram = require('instagram-web-api');
-const fs = require('fs');
+
 
 
 const client = new Instagram({
@@ -24,10 +24,11 @@ const loginFunction = () => {
 
 
 const instagramPostFunction = async() => {
-    const photo =  'C:/Users/antho/Documents/Anthony/UTN/Software Libre/socialhub/webserver/sites/shub.xyz/imagen.jpg';
+    const photo =  'C:/Users/antho/Documents/Anthony/UTN/Software Libre/socialhub/webserver/sites/shub.xyz/public/images/'+ 'imagen.jpg';
+    console.log(photo);
         await client.uploadPhoto({
         photo: photo,
-        captions:'Prueba desde express.js',
+        caption:'Prueba desde express.js',
         post:'feed'
     })
     .then((res) => {
@@ -37,8 +38,8 @@ const instagramPostFunction = async() => {
 }
 
 exports.post=(req, res, next)=>{
-   
-    loginFunction();
+    instagramPostFunction();
+    //loginFunction();
     res.send('yes');
 
 }

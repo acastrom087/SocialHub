@@ -4,13 +4,16 @@
 <section class="py-5">
     <div class="py-5 d-flex justify-content-center">
         <div class="w-25">
-            <form action="save" method="post" class="needs-validation" novalidate>
+            <form action="save" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                 <h1 class="h3 mb-3 py-4 fw-normal text-center">Schedule</h1>
                 <div class="form-floating py-1">
                     <input type="datetime-local" class="form-control" name="date" placeholder="Date" required
                         onChange={handleChange}/>
                         <input type="hidden" class="form-control" value=" " name="id" />
                     <label>Date </label>
+                </div>
+                <div class="form-floating py-1">
+                    <input type="file" class="form-control-file" name="image" required />
                 </div>
                 <div class="py-3">
                     <button class="w-100 btn btn-lg btn-dark" type="submit" >Save</button>

@@ -1,4 +1,47 @@
 var Schedule = require('../models/schedule');
+var Instagram = require('instagram-web-api');
+
+
+const client = new Instagram({
+    username: 'anthonycastromesen13',
+    password: 'facebook13'
+});
+
+const loginFunction = () => {
+    console.log('Loggins in...');
+    client
+    .login()
+    .then((res) => {
+        instagramPostFunction();
+        console.log('Login exitoso');
+    })
+    .catch(err => {
+        console.log('Login failed')
+        console.log(err.message);
+    })
+
+}
+
+
+const instagramPostFunction = async() => {
+    const photo =  './public/imagen.jpg';
+        await client.uploadPhoto({
+        photo: photo,
+        captions:'Prueba desde express.js',
+        post:'feed'
+    })
+    .then((res) => {
+        const media = res.media;
+        console.log('media' + media)
+    }).catch((err)=> console.log('Error' + err.message ))
+}
+
+exports.post=(req, res, next)=>{
+   
+    loginFunction();
+    res.send('yes');
+
+}
 
 exports.getAll = (req, res, next) =>{
 
@@ -18,8 +61,9 @@ exports.create = (req, res, next) =>{
 exports.save = (req, res, next) =>{
     const id = req.body.id
     const date = req.body.date;
-    const schedule = new Schedule(date, id); 
-    console.log(date,id);
+    const image = req.file.filename;
+    console.log(req.file.filename);
+    const schedule = new Schedule(date, image, id); 
     schedule.save(function(err){
         if(err){
             console.log(err);
