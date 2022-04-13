@@ -9,7 +9,6 @@ var mysql = require('./util/database')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var scheduleRouter = require('./routes/schedule');
 var postRouter = require('./routes/post');
 
 var app = express();
@@ -27,7 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/schedule', scheduleRouter);
 app.use('/post', postRouter);
 
 app.use((req, res, next) => {
