@@ -1,9 +1,10 @@
+
 var express = require('express');
 var router = express.Router();
 
-const userController = require('../controllers/userController');
-const homeController = require('../controllers/home');
-const authController = require('../controllers/auth');
+const userController = require('../controllers/userController.js');
+const homeController = require('../controllers/home.js');
+const authController = require('../controllers/auth.js');
 
 
 /* GET home page. */

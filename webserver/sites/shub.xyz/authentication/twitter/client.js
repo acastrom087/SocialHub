@@ -1,10 +1,13 @@
 const fs = require('fs');
 const dotenv = require('dotenv');
-const TwitterApi = require('twitter-api-v2');
+const Twitter = require('twitter-v2');
 
 
-const CONFIG = dotenv.parse(fs.readFileSync(__dirname + '/../.env'));
+const CONFIG = dotenv.parse(fs.readFileSync('.env'));
 
-const client = new TwitterApi({ appKey: CONFIG.CONSUMER_TOKEN, appSecret: CONFIG.CONSUMER_SECRET });
+const client = new Twitter({
+    consumer_key: CONFIG.CONSUMER_TOKEN,
+    consumer_secret: CONFIG.CONSUMER_SECRET,
+  });
 
 module.exports = client;

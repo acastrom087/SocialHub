@@ -1,4 +1,5 @@
-var con = require('../util/database');
+
+var con = require('../util/database.js');
 
 class post{
     constructor( date, image, description, id ){

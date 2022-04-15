@@ -3,6 +3,10 @@
 
 <body>
     <%- include('layouts/navigation.ejs') -%>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v13.0&appId=2770701036408533&autoLogAppEvents=1"
+        nonce="RlIHHXW8"></script>
     <main>
         <div class="container-fluid">
             <div class="row">
@@ -11,11 +15,14 @@
                         <strong>Channels</strong>
                     </div>
                     <div class="py-4">
+                        <div class="fb-login-button" data-width="225" data-size="medium" data-button-type="login_with"
+                            data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="true"></div>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="pt-5 d-flex flex-row-reverse">
-                        <button class="btn-dark rounded px-2 py-1">Create Post</button>
+                        <button class="btn-primary rounded px-2 py-1" data-bs-toggle="modal"
+                            data-bs-target="#publishBox">Create Post</button>
                     </div>
                     <div class="py-4">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -39,6 +46,68 @@
                     </div>
                 </div>
                 <div class="col-4"></div>
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal fade" id="publishBox" tabIndex="-1" aria-labelledby="publishBoxLabel">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="publishBoxLabel">Publishing</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form method="POST" action="/users/enable-token">
+                                    <div class="modal-body">
+                                        <div class="pt-2 pb-4">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input py-4 px-4 rounded" type="checkbox" id="facebook"
+                                                    value="facebook">
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input py-4 px-4 rounded" type="checkbox" id="instragram"
+                                                    value="instragram">
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mb-2">
+                                            <img src="/images/facebook-icon.png" alt="" width="30" height="30">
+                                            <textarea class="form-control" id="post" name="post" rows="2"></textarea>
+                                        </div>
+                                        <div class="d-flex">
+                                            <img src="/images/instagram-icon.jpg" alt="" width="30" height="30">
+                                            <textarea class="form-control" id="post" name="post" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="dropdown b-dropdown gl-new-dropdown btn-group">
+                                            <button type="submit" class="btn btn-primary" type="button"
+                                                aria-expanded="false">Add to Queue</button>
+                                            <button type="button" class="btn btn-primary dropdown-toggle border-start border-2 boder-white"
+                                                type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                aria-expanded="false"></button>
+                                            <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
+                                                <li>
+                                                    <form action="/" method="POST">
+                                                        <button type="submit" class="dropdown-item">
+                                                            <span class="px-1">Send now</span>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form action="/" method="POST">
+                                                        <button type="submit" class="dropdown-item">
+                                                            <span class="px-1">Schedule Post</span>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

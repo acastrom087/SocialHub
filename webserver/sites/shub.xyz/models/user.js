@@ -1,5 +1,4 @@
-
-const db = require('../util/database');
+const db = require('../util/database.js');
 const { authenticator } = require('otplib')
 const secret = authenticator.generateSecret()
 

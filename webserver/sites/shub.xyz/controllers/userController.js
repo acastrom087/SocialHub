@@ -1,9 +1,10 @@
+
 const QRCode = require('qrcode');
-const auth = require('../authentication/auth');
+const auth = require('../authentication/auth.js');
 const bcrypt = require('bcrypt');
 const { authenticator } = require('otplib')
 
-const User = require('../models/user');
+const User = require('../models/user.js');
 
 const salt = 10;
 

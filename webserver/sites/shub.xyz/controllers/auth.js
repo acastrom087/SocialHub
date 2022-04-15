@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const auth = require('../authentication/auth');
+const auth = require('../authentication/auth.js');
 const { authenticator } = require('otplib')
-const TwitterApi = require('twitter-api-v2');
-const requestClient = require('../authentication/twitter/client');
+const client = require('../authentication/twitter/client.js');
 
-const User = require('../models/user');
+const User = require('../models/user.js');
+
 
 
 
@@ -72,6 +72,9 @@ exports.authentication = async (req, res, next) => {
 exports.getDashboard = async (req, res, next) => {
     const token = req.cookies.token;
     const user = await auth.authorize(token);
+
+    console.log(client);
+    
     if (user) {
         return res.render('dashboard', {
             user: user

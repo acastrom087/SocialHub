@@ -1,3 +1,4 @@
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,9 +7,9 @@ var logger = require('morgan');
 var cors = require('cors');
 const bodyParser = require('body-parser')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var postRouter = require('./routes/post');
+var indexRouter = require('./routes/index.js');
+var usersRouter = require('./routes/users.js');
+var postRouter = require('./routes/post.js');
 
 var app = express();
 

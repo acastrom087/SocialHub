@@ -1,6 +1,7 @@
+
 var express = require('express');
 var router = express.Router();
-const postController = require('../controllers/postController');
+const postController = require('../controllers/postController.js');
 const multer = require('multer');
 var fecha = Date.now();
 

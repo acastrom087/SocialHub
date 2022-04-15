@@ -1,4 +1,4 @@
-var Post = require('../models/post');
+var Post = require('../models/post.js');
 var Instagram = require('instagram-web-api');
 
 

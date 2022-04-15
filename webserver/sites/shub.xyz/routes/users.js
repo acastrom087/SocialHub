@@ -1,7 +1,8 @@
+
 var express = require('express');
 var router = express.Router();
-const userController = require('../controllers/userController');
-const authController = require('../controllers/auth');
+const userController = require('../controllers/userController.js');
+const authController = require('../controllers/auth.js');
 
 router.get('/settings', userController.getSettings);
 
