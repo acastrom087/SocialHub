@@ -10,7 +10,6 @@ var storage = multer.diskStorage({
       cb(null,'./public/images/');
     },
     filename: function (req, file, cb) {
-      console.log(file);
       cb(null, fecha+"_"+file.originalname);
     }
   })
@@ -22,6 +21,8 @@ router.get('/delete/:id', postController.delete);
 router.get('/edit/:id', postController.edit);
 router.post('/save', upload.single("image"), postController.save);
 router.get('/post/:id', postController.post);
+router.get('/prueba', postController.prueba);
+
 
 
 module.exports = router;
