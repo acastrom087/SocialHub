@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const auth = require('../authentication/auth');
 const { authenticator } = require('otplib')
+const TwitterApi = require('twitter-api-v2');
+const requestClient = require('../authentication/twitter/client');
 
 const User = require('../models/user');
 
