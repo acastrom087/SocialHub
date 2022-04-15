@@ -1,5 +1,6 @@
 var Post = require('../models/post');
 var Instagram = require('instagram-web-api');
+var cron = require('node-cron');
 
 
 const client = new Instagram({
@@ -57,7 +58,6 @@ exports.save = (req, res, next) =>{
     const date = req.body.date;
     const image = req.file.filename;
     const description = req.body.description;
-    console.log(req.file.filename);
     const post = new Post(date, image, description, id); 
     post.save(function(err){
         if(err){
@@ -91,9 +91,27 @@ exports.post=(req, res, next)=>{
         var name = data[0].description;
         loginInstagram(name, description);
     })
-    
-
 }
+
+exports.prueba= (req, res, next) =>{
+    console.log('prueba')
+    var fecha= new Date();
+    var hora_actual = fecha.getHours() + ':' + fecha.getMinutes()+ ':' + fecha.getDay() + ':' + fecha.getMonth();
+    console.log(hora_actual)
+    Post.getLastPost(67,(err,data) =>{
+        var day = data[0].day;
+        var month = data[0].month;
+        var year = data[0].year;
+        var hour = data[0].hour;
+        var minute = data[0].minute;
+        console.log(`${hour} ${minute} ${day} ${month}`);
+        cron.schedule(`${minute} ${hour} ${day} ${month} *`, ()=> {
+        console.log('running a task every minute');
+      });
+    })
+    
+}
+
 
 
 

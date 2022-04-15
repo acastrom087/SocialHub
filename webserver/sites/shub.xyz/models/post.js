@@ -15,11 +15,11 @@ class post{
 
     
     save=(funcion) =>{  
-        
+        if(this._id = " "){
             con.query("INSERT INTO posts (date, image, description) VALUES (?,?,?)", [this.date, this.image, this.description],funcion);
-       
-            //con.query("UPDATE posts set date = ? WHERE id = ?", [this.date,  this._id],funcion);
-        
+        }else{
+            con.query("UPDATE posts set date = ? WHERE id = ?", [this.date,  this._id],funcion);
+        }
         
     }               
 
@@ -31,6 +31,10 @@ class post{
     static findById = (id, funcion) =>{
         //con.query("SELECT id, date_format(date, '%d/%m/%Y %H:%i') as 'date' FROM socialhub.posts  WHERE id = ?", [id], funcion)
         con.query("SELECT id, date, image, description FROM socialhub.posts  WHERE id = ?", [id], funcion)
+    }
+
+    static getLastPost =(id,funcion) =>{
+        con.query("SELECT id, date_format(date, '%d') as 'day', date_format(date, '%c') as 'month', date_format(date, '%Y') as 'year', date_format(date, '%H') as 'hour',date_format(date, '%i') as 'minute'  FROM socialhub.posts WHERE id=?",[id], funcion)
     }
 }
 
