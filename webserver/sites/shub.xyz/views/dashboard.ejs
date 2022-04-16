@@ -1,22 +1,29 @@
 <%- include('layouts/head.ejs') -%>
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
 </head>
 
 <body>
     <%- include('layouts/navigation.ejs') -%>
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous"
-        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v13.0&appId=2770701036408533&autoLogAppEvents=1"
-        nonce="RlIHHXW8"></script>
     <main>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-2 border-end">
+                <div class="col-2 border-end ">
                     <div class="px-4 pb-2 pt-5 border-bottom">
                         <strong>Channels</strong>
                     </div>
-                    <div class="py-4">
-                        <div class="fb-login-button" data-width="225" data-size="medium" data-button-type="login_with"
-                            data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="true"></div>
+                    <div class="d-flex justify-content-center">
+                        <div>
+                            <div class="pt-4">
+                                <a href="<%= authLink %>" class="btn btn-block btn-social btn-twitter">
+                                    <i class="fa fa-twitter"></i> Connect Twitter
+                                </a>
+                            </div>
+                            <div class="py-3">
+                                <a class="btn btn-block btn-social btn-linkedin">
+                                    <i class="fa fa-linkedin"></i> Connect LinkedIn
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-6">

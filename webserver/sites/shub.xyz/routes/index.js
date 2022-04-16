@@ -5,6 +5,7 @@ var router = express.Router();
 const userController = require('../controllers/userController.js');
 const homeController = require('../controllers/home.js');
 const authController = require('../controllers/auth.js');
+const twitterController =  require('../controllers/twitterController.js');
 
 
 /* GET home page. */
@@ -25,5 +26,9 @@ router.post('/register', userController.addUsers);
 router.get('/dashboard', authController.getDashboard);
 
 router.post('/logout', authController.logout);
+
+//router.get('/auth/twitter', twitterController.twitterLogIn);
+
+//router.get('/dashboard/auth/twitter', twitterController.twitterAuth);
 
 module.exports = router;

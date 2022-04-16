@@ -2,8 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const auth = require('../authentication/auth.js');
 const { authenticator } = require('otplib')
-const client = require('../authentication/twitter/client.js');
-
+const client = require('../authentication/twitterClient.js');
 const User = require('../models/user.js');
 
 
@@ -72,12 +71,14 @@ exports.authentication = async (req, res, next) => {
 exports.getDashboard = async (req, res, next) => {
     const token = req.cookies.token;
     const user = await auth.authorize(token);
-
-    console.log(client);
+    const authLink = await client.generateAuthLink("http://shub811.xyz:3000/dashboard/");
     
+    console.log(authLink.url);
+
     if (user) {
         return res.render('dashboard', {
-            user: user
+            user: user,
+            authLink: authLink.url
         })
     }
     return res.redirect('/login');
