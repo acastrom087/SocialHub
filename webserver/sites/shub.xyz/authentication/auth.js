@@ -14,5 +14,12 @@ module.exports = {
             }
             return user;
         }
+    },
+
+    twitterAuthorize(twToken){
+        if (twToken) {
+            const { secretToken } = decode(twToken);
+            return secretToken;
+        }
     }
 }

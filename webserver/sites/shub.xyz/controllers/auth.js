@@ -70,25 +70,40 @@ exports.authentication = async (req, res, next) => {
 };
 
 exports.getDashboard = async (req, res, next) => {
-    const token = req.cookies.token;
-    const user = await auth.authorize(token);
-    const authLink = await twitterClient.client.generateAuthLink(callBackURL);
+    const user = await auth.authorize(req.cookies.token);
+    const secretToken = auth.twitterAuthorize(req.cookies.twitterToken);
+    console.log(secretToken);
     const twitterAuth = false;
     const linkedInAuth = false;
 
     if (req.query.oauth_token || req.query.oauth_verifier) {
         const twitterToken = toString(req.query.oauth_token);
         const verifier = toString(req.query.oauth_verifier);
-        const tempClient = twitterClient.tempClient(twitterToken, authLink.oauth_token_secret);
+        const tempClient = twitterClient.tempClient(twitterToken, secretToken);
 
         if (verifier !== '' && twitterToken !== '') {
-            const { accessToken, accessSecret, screenName, userId } = await tempClient.login(verifier);
+            try {
+                const { accessToken, accessSecret, screenName, userId } = await tempClient.login(verifier);
 
-            if (accessToken && accessSecret) {
-                twitterAuth = true;
-                console.log('Twitter account verified');
+                if (accessToken && accessSecret) {
+                    twitterAuth = true;
+                    console.log('Twitter account verified');
+                    return res.redirect(callBackURL);
+                }
+            } catch (error) {
+                return res.send(error);
+                //return res.redirect(callBackURL);
             }
         }
+    }
+
+    const authLink = await twitterClient.client.generateAuthLink(callBackURL);
+
+    if (authLink) {
+        const authT = authLink.oauth_token_secret
+        console.log(authT);
+        const twitterJWT = jwt.sign({ authT }, 'twitterKey');
+        res.cookie('twitterToken', twitterJWT, { httpOnly: true, secure: false });
     }
 
     if (user) {
