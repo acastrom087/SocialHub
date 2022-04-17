@@ -18,8 +18,8 @@ module.exports = {
 
     twitterAuthorize(twToken){
         if (twToken) {
-            const { secretToken } = decode(twToken);
-            return secretToken;
+            const { authT } = decode(twToken);
+            return authT;
         }
     }
 }

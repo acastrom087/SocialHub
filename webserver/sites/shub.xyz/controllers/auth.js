@@ -5,6 +5,7 @@ const { authenticator } = require('otplib')
 const twitterClient = require('../authentication/twitterClient.js');
 
 const User = require('../models/user.js');
+const TwitterApi = require('twitter-api-v2').TwitterApi;
 
 const callBackURL = "http://shub811.xyz:3000/dashboard/";
 
@@ -72,29 +73,26 @@ exports.authentication = async (req, res, next) => {
 exports.getDashboard = async (req, res, next) => {
     const user = await auth.authorize(req.cookies.token);
     const secretToken = auth.twitterAuthorize(req.cookies.twitterToken);
+    const { oauth_token, oauth_verifier } = req.query;
     console.log(secretToken);
-    const twitterAuth = false;
+    var twitterAuth = false;
     const linkedInAuth = false;
 
-    if (req.query.oauth_token || req.query.oauth_verifier) {
-        const twitterToken = toString(req.query.oauth_token);
-        const verifier = toString(req.query.oauth_verifier);
-        const tempClient = twitterClient.tempClient(twitterToken, secretToken);
+    if (oauth_token && oauth_verifier) {
 
-        if (verifier !== '' && twitterToken !== '') {
-            try {
-                const { accessToken, accessSecret, screenName, userId } = await tempClient.login(verifier);
+        const tempClient = twitterClient.tempClient(oauth_token, secretToken);
 
-                if (accessToken && accessSecret) {
-                    twitterAuth = true;
-                    console.log('Twitter account verified');
-                    return res.redirect(callBackURL);
-                }
-            } catch (error) {
-                return res.send(error);
+        tempClient.login(oauth_verifier)
+            .then(({ client: loggedClient, accessToken, accessSecret }) => {
+                console.log(loggedClient);
+                console.log(accessToken);
+                console.log(accessSecret);
                 //return res.redirect(callBackURL);
-            }
-        }
+            })
+            .catch((error) => {
+                //return res.send('Invalid verifier or access tokens!')
+                console.log(error);
+            });
     }
 
     const authLink = await twitterClient.client.generateAuthLink(callBackURL);
