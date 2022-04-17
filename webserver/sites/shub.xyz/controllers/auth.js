@@ -2,10 +2,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const auth = require('../authentication/auth.js');
 const { authenticator } = require('otplib')
-const client = require('../authentication/twitterClient.js');
+const twitterClient = require('../authentication/twitterClient.js');
+
 const User = require('../models/user.js');
 
-
+const callBackURL = "http://shub811.xyz:3000/dashboard/";
 
 
 exports.login = (req, res, next) => {
@@ -71,14 +72,31 @@ exports.authentication = async (req, res, next) => {
 exports.getDashboard = async (req, res, next) => {
     const token = req.cookies.token;
     const user = await auth.authorize(token);
-    const authLink = await client.generateAuthLink("http://shub811.xyz:3000/dashboard/");
-    
-    console.log(authLink.url);
+    const authLink = await twitterClient.client.generateAuthLink(callBackURL);
+    const twitterAuth = false;
+    const linkedInAuth = false;
+
+    if (req.query.oauth_token || req.query.oauth_verifier) {
+        const twitterToken = toString(req.query.oauth_token);
+        const verifier = toString(req.query.oauth_verifier);
+        const tempClient = twitterClient.tempClient(twitterToken, authLink.oauth_token_secret);
+
+        if (verifier !== '' && twitterToken !== '') {
+            const { accessToken, accessSecret, screenName, userId } = await tempClient.login(verifier);
+
+            if (accessToken && accessSecret) {
+                twitterAuth = true;
+                console.log('Twitter account verified');
+            }
+        }
+    }
 
     if (user) {
         return res.render('dashboard', {
             user: user,
-            authLink: authLink.url
+            authLink: authLink.url,
+            twitterAuth: twitterAuth,
+            linkedInAuth: linkedInAuth
         })
     }
     return res.redirect('/login');
@@ -88,3 +106,4 @@ exports.logout = (req, res, next) => {
     res.clearCookie("token");
     res.redirect('/login');
 }
+
