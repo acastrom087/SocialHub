@@ -74,49 +74,72 @@ exports.getDashboard = async (req, res, next) => {
     const user = await auth.authorize(req.cookies.token);
     const secretToken = auth.twitterAuthorize(req.cookies.twitterToken);
     const { oauth_token, oauth_verifier } = req.query;
-    console.log(secretToken);
-    var twitterAuth = false;
-    const linkedInAuth = false;
 
     if (oauth_token && oauth_verifier) {
 
         const tempClient = twitterClient.tempClient(oauth_token, secretToken);
 
-        tempClient.login(oauth_verifier)
+        try {
+            const { accessToken, accessSecret } = await tempClient.login(oauth_verifier);
+            const twitterKeys = jwt.sign({ accessToken, accessSecret }, 'twitterAcc');
+
+            res.cookie('twitterAuth', twitterKeys, { httpOnly: true, secure: false });
+            
+            return res.redirect(callBackURL);
+        } catch (error) {
+            console.log(error);
+            return res.redirect(callBackURL);
+        }
+
+        /*tempClient.login(oauth_verifier)
             .then(({ client: loggedClient, accessToken, accessSecret }) => {
-                console.log(loggedClient);
-                console.log(accessToken);
-                console.log(accessSecret);
-                //return res.redirect(callBackURL);
+                const accToken = accessToken
+                const accSecret = accessSecret
+                const twitterKeys = jwt.sign({ accToken, accSecret }, 'twitterAcc');
+                res.cookie('twitterAuth', twitterKeys, { httpOnly: true, secure: false });
+                return res.redirect(callBackURL);
             })
             .catch((error) => {
                 //return res.send('Invalid verifier or access tokens!')
                 console.log(error);
-            });
+            });*/
     }
 
     const authLink = await twitterClient.client.generateAuthLink(callBackURL);
 
     if (authLink) {
         const authT = authLink.oauth_token_secret
-        console.log(authT);
         const twitterJWT = jwt.sign({ authT }, 'twitterKey');
         res.cookie('twitterToken', twitterJWT, { httpOnly: true, secure: false });
     }
 
-    if (user) {
-        return res.render('dashboard', {
-            user: user,
-            authLink: authLink.url,
-            twitterAuth: twitterAuth,
-            linkedInAuth: linkedInAuth
-        })
+    if (user) {      
+        if (req.cookies.twitterAuth) {
+            return res.render('dashboard', {
+                user: user,
+                authLink: authLink.url,
+                twitterAuth: true
+            })
+        }
+        else {
+            return res.render('dashboard', {
+                user: user,
+                authLink: authLink.url,
+                twitterAuth: false
+            })
+        }
     }
     return res.redirect('/login');
 };
 
 exports.logout = (req, res, next) => {
     res.clearCookie("token");
+    res.clearCookie("twitterToken");
+    res.clearCookie("twitterAuth");
     res.redirect('/login');
 }
 
+exports.twitterLogout = (req, res, next) => {
+    res.clearCookie("twitterAuth");
+    res.redirect('/dashboard');
+}

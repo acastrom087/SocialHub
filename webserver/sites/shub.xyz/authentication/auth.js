@@ -1,6 +1,5 @@
 const decode = require('jwt-decode');
 
-
 const User = require('../models/user.js');
 
 module.exports = {
@@ -20,6 +19,15 @@ module.exports = {
         if (twToken) {
             const { authT } = decode(twToken);
             return authT;
+        }
+    },
+
+    twitterCredentials(authToken){
+        if (authToken) {
+            const { accessToken, accessSecret } = decode(authToken);
+            const accToken = accessToken;
+            const accSecret = accessSecret;
+            return accToken, accSecret;
         }
     }
 }

@@ -19,7 +19,12 @@
                                     <i class="fa fa-twitter"></i> Connect Twitter
                                 </a>
                                 <%} else { %>
-                                <button class="w-100 btn btn-lg btn-dark" type="button">Disable authenticator</button>
+                                    <form action="/twitterLogout" method="POST">
+                                        <button type="submit" class="btn btn-block btn-social btn-twitter">
+                                            <i class="fa fa-twitter"></i>Log out
+                                        </button>
+                                    </form>
+        
                                 <% } %>
                             </div>
                             <div class="py-3">
