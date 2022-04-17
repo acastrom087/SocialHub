@@ -81,11 +81,13 @@ exports.getDashboard = async (req, res, next) => {
 
         try {
             const { accessToken, accessSecret } = await tempClient.login(oauth_verifier);
-
             const twitterKeys = jwt.sign({ accessToken, accessSecret }, 'twitterAcc');
+
             res.cookie('twitterAuth', twitterKeys, { httpOnly: true, secure: false });
+            
             return res.redirect(callBackURL);
         } catch (error) {
+            console.log(error);
             return res.redirect(callBackURL);
         }
 
@@ -113,11 +115,6 @@ exports.getDashboard = async (req, res, next) => {
 
     if (user) {      
         if (req.cookies.twitterAuth) {
-            const { accToken, accSecret } = auth.twitterCredentials(req.cookies.twitterAuth);
-            const userTwitterClient = twitterClient.tempClient(accToken, accSecret);
-
-            console.log(userTwitterClient);
-
             return res.render('dashboard', {
                 user: user,
                 authLink: authLink.url,
@@ -142,3 +139,7 @@ exports.logout = (req, res, next) => {
     res.redirect('/login');
 }
 
+exports.twitterLogout = (req, res, next) => {
+    res.clearCookie("twitterAuth");
+    res.redirect('/dashboard');
+}

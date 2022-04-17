@@ -27,4 +27,6 @@ router.get('/dashboard', authController.getDashboard);
 
 router.post('/logout', authController.logout);
 
+router.post('/twitterLogout', authController.twitterLogout);
+
 module.exports = router;
