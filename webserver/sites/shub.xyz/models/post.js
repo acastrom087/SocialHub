@@ -1,4 +1,3 @@
-
 var db = require('../util/database.js');
 
 class Post {
@@ -11,7 +10,7 @@ class Post {
         this.id = id;
     }
 
-    static getPosts = () => {
+    getPosts = () => {
         return new Promise((resolve, reject) => {
             db.query('SELECT * FROM Posts', (err, results) => {
                 if (err) {
@@ -56,7 +55,7 @@ class Post {
         return new Promise((resolve, reject) => {
             db.query('SELECT * FROM Posts WHERE user_id = ?', [user_id], (err, results) => {
                 if (err) {
-                    return reject(err);
+                    return null;
                 }
                 return resolve(results);
             });
@@ -67,7 +66,7 @@ class Post {
         return new Promise((resolve, reject) => {
             db.query('SELECT * FROM Posts WHERE id = ?', [id], (err, results) => {
                 if (err) {
-                    return reject(err);
+                    return null;
                 }
                 return resolve(results[0]);
             });
@@ -78,6 +77,6 @@ class Post {
     static getLastPost = (id, funcion) => {
         db.query("SELECT id, date_format(date, '%d') as 'day', date_format(date, '%c') as 'month', date_format(date, '%Y') as 'year', date_format(date, '%H') as 'hour',date_format(date, '%i') as 'minute'  FROM socialhub.posts WHERE id=?", [id], funcion)
     }
-}
+};
 
 module.exports = Post;

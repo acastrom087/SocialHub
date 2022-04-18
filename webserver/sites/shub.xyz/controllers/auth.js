@@ -5,7 +5,9 @@ const { authenticator } = require('otplib')
 const twitterClient = require('../authentication/twitterClient.js');
 
 const User = require('../models/user.js');
-const TwitterApi = require('twitter-api-v2').TwitterApi;
+const Post = require('../models/post');
+const { post } = require('../routes/index.js');
+//const TwitterApi = require('twitter-api-v2').TwitterApi;
 
 const callBackURL = "http://shub811.xyz:3000/dashboard/";
 
@@ -72,6 +74,7 @@ exports.authentication = async (req, res, next) => {
 
 exports.getDashboard = async (req, res, next) => {
     const user = await auth.authorize(req.cookies.token);
+    const posts = await Post.findPosts(user.id);
     const secretToken = auth.twitterAuthorize(req.cookies.twitterToken);
     const { oauth_token, oauth_verifier } = req.query;
 
@@ -105,14 +108,16 @@ exports.getDashboard = async (req, res, next) => {
             return res.render('dashboard', {
                 user: user,
                 authLink: authLink.url,
-                twitterAuth: true
+                twitterAuth: true,
+                posts : posts
             })
         }
         else {
             return res.render('dashboard', {
                 user: user,
                 authLink: authLink.url,
-                twitterAuth: false
+                twitterAuth: false,
+                posts : posts
             })
         }
     }
