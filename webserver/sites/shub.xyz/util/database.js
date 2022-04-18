@@ -1,13 +1,13 @@
 const mysql = require('mysql')
 const connection = mysql.createConnection({
-    // host: '192.168.56.30',
-    // user: 'admin',
-    // password: 'secret',
-    // database: 'socialHub'
-    host: 'localhost',
+    host: '192.168.56.30',
+    user: 'admin',
+    password: 'secret',
+    database: 'socialHub'
+    /*host: 'localhost',
     user: 'root',
     password: '0121',
-    database: 'socialHub'
+    database: 'socialHub'*/
 })
 
 

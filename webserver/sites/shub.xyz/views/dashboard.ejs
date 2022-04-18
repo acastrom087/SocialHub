@@ -60,67 +60,67 @@
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <div class="container-fluid py-4">
                                     <% for (let post of posts) { %>
-                                        <% if(post.status === "onQueue") { %>
-                                        <div class="row border border-1 py-2 px-3">
-                                            <%= post.schedule.toDateString() %>
+                                    <% if(post.status === "onQueue") { %>
+                                    <div class="row border border-1 py-2 px-3">
+                                        <%= post.schedule.toDateString() %>
+                                    </div>
+                                    <div class="row border border-1">
+                                        <div class="col-8 py-2">
+                                            <%= post.message %>
                                         </div>
-                                        <div class="row border border-1">
-                                            <div class="col-8 py-2">
-                                                <%= post.message %>
+                                        <div class="col-4">
+                                            <div class="d-flex justify-content-center m-2 p-2">
+                                                <img src="/images/<%= post.media %>" alt="" width="145" height="145">
                                             </div>
-                                            <div class="col-4">
-                                                <div class="d-flex justify-content-center m-2 p-2">
-                                                    <img src="/images/<%= post.media %>" alt="" width="145" height="145">
+                                        </div>
+                                    </div>
+                                    <div class="row border border-1 px-3">
+                                        <div class="col-8 py-2 text-center d-flex align-items-center">
+                                            This post was scheduled for <%= post.schedule %>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="d-flex justify-content-center p-2">
+                                                <div class="px-1">
+                                                    <button class="btn btn-muted border">Delete</button>
+                                                </div>
+                                                <div class="px-1">
+                                                    <button class="btn btn-light border">Edit</button>
+                                                </div>
+                                                <div class="px-1">
+                                                    <button class="btn btn-primary">Share now</button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row border border-1 px-3">
-                                            <div class="col-8 py-2 text-center d-flex align-items-center">
-                                                This post was scheduled for <%= post.schedule %>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="d-flex justify-content-center p-2">
-                                                    <div class="px-1">
-                                                        <button class="btn btn-muted border">Delete</button>
-                                                    </div>
-                                                    <div class="px-1">
-                                                        <button class="btn btn-light border">Edit</button>
-                                                    </div>
-                                                    <div class="px-1">
-                                                        <button class="btn btn-primary">Share now</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <% } %>
+                                    </div>
+                                    <% } %>
                                     <% } %>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <div class="container-fluid py-4">
                                     <% for (let post of posts) { %>
-                                        <% if(post.status === "sent") { %>
-                                        <div class="row border border-1 py-2 px-3">
-                                            <%= post.schedule %>
+                                    <% if(post.status === "sent") { %>
+                                    <div class="row border border-1 py-2 px-3">
+                                        <%= post.schedule %>
+                                    </div>
+                                    <div class="row border border-1">
+                                        <div class="col-8 py-2">
+                                            <%= post.message %>
                                         </div>
-                                        <div class="row border border-1">
-                                            <div class="col-8 py-2">
-                                                <%= post.message %>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="d-flex justify-content-center m-2 p-2">
-                                                    <img src="/images/<%= post.media %>" alt="" width="145" height="145">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row border border-1 px-3">
-                                            <div class="col-8 py-2 text-center d-flex align-items-center">
-                                                This post was sent on <%= post.schedule %>
-                                            </div>
-                                            <div class="col-4">
+                                        <div class="col-4">
+                                            <div class="d-flex justify-content-center m-2 p-2">
+                                                <img src="/images/<%= post.media %>" alt="" width="145" height="145">
                                             </div>
                                         </div>
-                                        <% } %>
+                                    </div>
+                                    <div class="row border border-1 px-3">
+                                        <div class="col-8 py-2 text-center d-flex align-items-center">
+                                            This post was sent on <%= post.schedule %>
+                                        </div>
+                                        <div class="col-4">
+                                        </div>
+                                    </div>
+                                    <% } %>
                                     <% } %>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <form action="/post/create" method="POST" enctype="multipart/form-data">
-                                    <input type="hidden" name="user_id" value="<%= user.id %>">
+                                    <input type="hidden" id="user_id" name="user_id" value="<%= user.id %>">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="publishBoxLabel">Publishing</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -167,16 +167,14 @@
                                                 aria-expanded="false"></button>
                                             <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
                                                 <li>
-                                                    <button type="submit" class="dropdown-item">
-                                                        <span class="px-1"><a href="/post/tweet" class="btn">Send
-                                                                now</a></span>
+                                                    <button type="submit" class="dropdown-item" id="btn-send-now">
+                                                        <span class="px-1">Send now</span>
                                                     </button>
                                                 </li>
                                                 <li>
                                                     <div>
                                                         <button type="button" class="dropdown-item"
-                                                            data-bs-toggle="modal" data-bs-target="#schedulePost"
-                                                            data-bs-dismiss="modal" aria-label="Close">
+                                                            data-bs-toggle="modal" data-bs-target="#schedulePost">
                                                             <span class="px-1">Schedule Post</span>
                                                         </button>
                                                     </div>
@@ -196,22 +194,6 @@
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <form action="/post/schedule" method="POST" enctype="multipart/form-data">
-                                        <input type="hidden" name="user_id" value="<%= user.id %>">
-                                        <div class="mb-2">
-                                            <div class="row">
-                                                <div class="col-1">
-                                                    <img src="/images/twitter-logo.png" alt="" width="35" height="35">
-                                                </div>
-                                                <div class="col-11">
-                                                    <textarea class="form-control" id="message" name="message"
-                                                        rows="2"></textarea>
-                                                    <div class="input-group">
-                                                        <input type="file" class="form-control pl-4" id="media"
-                                                            name="media">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="input-group mb-3 d-flex justify-content-center">
                                             <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg"
                                                     width="16" height="16" fill="currentColor"
@@ -225,7 +207,8 @@
                                             <input type="time" name="postTime" id="postTime" class="py-2">
                                         </div>
                                         <div class="d-flex justify-content-center">
-                                            <button type="submit" class="btn btn-primary">Schedule</button>
+                                            <button type="submit" class="btn btn-primary"
+                                                id="btn-schedule">Schedule</button>
                                         </div>
                                     </form>
                                 </div>
@@ -236,5 +219,53 @@
             </div>
         </div>
     </main>
+    <script>
+        var getMessage = document.getElementById('message');
+        var getMedia = document.getElementById('media');
+        var getDate = document.getElementById('postDate');
+        var getTime = document.getElementById('postTime');
+        const getUserId = document.getElementById('user_id');
+        const getSendNowButton = document.getElementById('btn-send-now');
 
+        const getScheduleButton = document.getElementById('btn-schedule');
+
+        getSendNowButton.addEventListener('click', () => {
+            fetch('http://192.168.56.20:3000/post/send-now', {
+                method: 'POST',
+                enctype: "multipart/form-data",
+                body: JSON.stringify({
+                    message: getMessage.value,
+                    media: getMedia.value,
+                    user_id: getUserId.value
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .then(resData => console.log(resData))
+                .catch(err => console.log(err));
+        });
+
+        getScheduleButton.addEventListener('click', () => {
+            fetch('http://192.168.56.20:3000/post/schedule', {
+                method: 'POST',
+                enctype: "multipart/form-data",
+                body: JSON.stringify({
+                    message: getMessage.value,
+                    media: getMedia.value,
+                    user_id: getUserId.value,
+                    postDate: getDate.value,
+                    postTime: getTime.value
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => res.json())
+                .then(resData => console.log(resData))
+                .catch(err => console.log(err));
+        });
+
+    </script>
     <%- include('layouts/footer.ejs') -%>

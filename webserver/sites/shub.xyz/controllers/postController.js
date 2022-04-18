@@ -39,7 +39,9 @@ exports.createPostScheduled = (req, res, next) => {
     const fullDate = new Date(tempDateTime);
     console.log('fulldate ' + fullDate);
     const message = req.body.message;
+    console.log(message);
     const media = req.file.filename;
+    console.log(media);
     const schedule = fullDate;
     const status = "onQueue";
     const user_id = req.body.user_id;
@@ -76,7 +78,9 @@ exports.createPostNow = (req, res, next) => {
     const schedule = day;
     const status = "Sent";
     const message = req.body.message;
+    console.log(message);
     const media = req.file.filename;
+    console.log(media);
     const user_id = req.body.user_id;
     const post = new Post(message, media, schedule, status, user_id);
     post
@@ -139,8 +143,8 @@ const tweet = async (cookie, caption, image) => {
         const userTwitterClient = twitterClient.tempClient(accToken, accSecret);
         
         try {
-            //const mediaId = await userTwitterClient.v1.uploadMedia();
-            await userTwitterClient.v1.tweet(caption)
+            const mediaId = await userTwitterClient.v1.uploadMedia(image);
+            await userTwitterClient.v1.tweet(caption), { media_ids: mediaId }
             .then((res) => console.log('Respuesta de promesa ' + res))
             .catch((err) => console.log('Error de promesa ' + err.message))
             console.log('nada')
