@@ -20,8 +20,8 @@ router.post('/create', upload.single("media"), postController.createPost);
 router.post('/send-now', upload.single("media"), postController.createPostNow);
 router.post('/schedule', upload.single("media"), postController.createPostScheduled);
 router.post('/tweet', upload.single("media"), postController.createPostNow);
-router.get('/prueba', postController.prueba);
-//router.get('/tweet', upload.single("media"), postController.tweet);
+router.get('/delete/:id', postController.delete);
+
 
 
 

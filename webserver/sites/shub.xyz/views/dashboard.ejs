@@ -73,21 +73,21 @@
                                                 <img src="/images/<%= post.media %>" alt="" width="145" height="145">
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row border border-1 px-3">
-                                        <div class="col-8 py-2 text-center d-flex align-items-center">
-                                            This post was scheduled for <%= post.schedule %>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="d-flex justify-content-center p-2">
-                                                <div class="px-1">
-                                                    <button class="btn btn-muted border">Delete</button>
-                                                </div>
-                                                <div class="px-1">
-                                                    <button class="btn btn-light border">Edit</button>
-                                                </div>
-                                                <div class="px-1">
-                                                    <button class="btn btn-primary">Share now</button>
+                                        <div class="row border border-1 px-3">
+                                            <div class="col-8 py-2 text-center d-flex align-items-center">
+                                                This post was scheduled for <%= post.schedule %>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="d-flex justify-content-center p-2">
+                                                    <div class="px-1">
+                                                       <a href="/post/delete/<%= post.id%>"> <button class="btn btn-muted border"> Delete</button></a>
+                                                    </div>
+                                                    <div class="px-1">
+                                                        <button class="btn btn-light border">Edit</button>
+                                                    </div>
+                                                    <div class="px-1">
+                                                        <button class="btn btn-primary">Share now</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -99,13 +99,9 @@
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <div class="container-fluid py-4">
                                     <% for (let post of posts) { %>
-                                    <% if(post.status === "sent") { %>
-                                    <div class="row border border-1 py-2 px-3">
-                                        <%= post.schedule %>
-                                    </div>
-                                    <div class="row border border-1">
-                                        <div class="col-8 py-2">
-                                            <%= post.message %>
+                                        <% if(post.status === "Sent") { %>
+                                        <div class="row border border-1 py-2 px-3">
+                                            <%= post.schedule %>
                                         </div>
                                         <div class="col-4">
                                             <div class="d-flex justify-content-center m-2 p-2">
