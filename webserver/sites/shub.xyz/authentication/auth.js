@@ -27,7 +27,8 @@ module.exports = {
             const { accessToken, accessSecret } = decode(authToken);
             const accToken = accessToken;
             const accSecret = accessSecret;
-            return accToken, accSecret;
+            
+            return ({accToken,  accSecret});
         }
     }
 }

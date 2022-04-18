@@ -4,6 +4,10 @@ const connection = mysql.createConnection({
     user: 'admin',
     password: 'secret',
     database: 'socialHub'
+    // host: 'localhost',
+    // user: 'root',
+    // password: '0121',
+    // database: 'socialHub'
 })
 
 

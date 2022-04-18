@@ -34,14 +34,14 @@ exports.createPostScheduled = (req, res, next) => {
     console.log(tempDateTime);
     process.env.TZ;
     const fullDate = new Date(tempDateTime);
-    console.log(fullDate);
+    console.log('fulldate ' + fullDate);
 
     const message = req.body.message;
     const media = req.file.filename;
     const schedule = fullDate;
     const status = "onQueue";
     const user_id = req.body.user_id;
-    /*const post = new Post(message, media, schedule, status, user_id);
+    const post = new Post(message, media, schedule, status, user_id);
     post
         .save()
         .then(result => {
@@ -51,7 +51,7 @@ exports.createPostScheduled = (req, res, next) => {
             res.render('error', {
                 error: err
             });
-        });*/
+        });
 }
 
 exports.createPostNow = (message, media, user_id) => {

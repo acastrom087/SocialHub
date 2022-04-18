@@ -15,4 +15,6 @@ exports.tempClient = (userToken, userSecret) => {
     });
 }
 
-exports.client = client;
+const rwClient = client.readWrite
+
+exports.client = rwClient;
