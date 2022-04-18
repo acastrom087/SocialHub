@@ -1,42 +1,83 @@
 
-var con = require('../util/database.js');
+var db = require('../util/database.js');
 
-class post{
-    constructor( date, image, description, id ){
-        this.date = date;
-        this.image = image;
-        this.description = description;
-        this._id = id;
+class Post {
+    constructor(message, media, schedule, status, user_id, id) {
+        this.message = message;
+        this.media = media;
+        this.schedule = schedule;
+        this.status = status;
+        this.user_id = user_id;
+        this.id = id;
     }
 
-    static getAll = (funcion) =>{
-        con.query("SELECT id, date_format(date, '%W') as 'day', time_format(date, '%H : %i') as hour, image FROM socialhub.posts order by day",
-        funcion);
+    static getPosts = () => {
+        return new Promise((resolve, reject) => {
+            db.query('SELECT * FROM Posts', (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(results);
+            });
+        });
+    };
+
+
+    save = () => {
+        return new Promise((resolve, reject) => {
+            if (this.id > 0) {
+                db.query('UPDATE Posts SET message = ?, media = ?, schedule = ?, status = ?, user_id = ? WHERE id = ?',
+                    [this.message, this.media, this.schedule, this.status, this.user_id, this.id], (err, results) => {
+                        if (err) {
+                            return reject(err);
+                        }
+                        return resolve(results[0]);
+                    });
+            }
+            else {
+                db.query('INSERT INTO Posts (message, media, schedule, status, user_id) VALUES (?, ?, ?, ?, ?)',
+                    [this.message, this.media, this.schedule, this.status, this.user_id], (err, results) => {
+                        if (err) {
+                            return reject(err);
+                        }
+                        return resolve(results[0]);
+                    });
+            }
+
+        });
     }
 
-    
-    save=(funcion) =>{  
-        if(this._id = " "){
-            con.query("INSERT INTO posts (date, image, description) VALUES (?,?,?)", [this.date, this.image, this.description],funcion);
-        }else{
-            con.query("UPDATE posts set date = ? WHERE id = ?", [this.date,  this._id],funcion);
-        }
-        
-    }               
+    static delete = (id, funcion) => {
+        db.query("DELETE FROM Posts WHERE id = ?", [id], funcion);
 
-    static delete=(id, funcion) =>{
-            con.query("DELETE FROM posts WHERE id = ?", [id], funcion);
-            
     }
 
-    static findById = (id, funcion) =>{
-        //con.query("SELECT id, date_format(date, '%d/%m/%Y %H:%i') as 'date' FROM socialhub.posts  WHERE id = ?", [id], funcion)
-        con.query("SELECT id, date, image, description FROM socialhub.posts  WHERE id = ?", [id], funcion)
-    }
+    static findPosts = (user_id) => {
+        return new Promise((resolve, reject) => {
+            db.query('SELECT * FROM Posts WHERE user_id = ?', [user_id], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(results);
+            });
+        });
+    };
 
-    static getLastPost =(id,funcion) =>{
-        con.query("SELECT id, date_format(date, '%d') as 'day', date_format(date, '%c') as 'month', date_format(date, '%Y') as 'year', date_format(date, '%H') as 'hour',date_format(date, '%i') as 'minute'  FROM socialhub.posts WHERE id=?",[id], funcion)
+    static findPostById = (id) => {
+        return new Promise((resolve, reject) => {
+            db.query('SELECT * FROM Posts WHERE id = ?', [id], (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(results[0]);
+            });
+        });
+    };
+
+
+    static getLastPost = (id, funcion) => {
+        db.query("SELECT id, date_format(date, '%d') as 'day', date_format(date, '%c') as 'month', date_format(date, '%Y') as 'year', date_format(date, '%H') as 'hour',date_format(date, '%i') as 'minute'  FROM socialhub.posts WHERE id=?", [id], funcion)
     }
 }
 
-module.exports = post;
+module.exports = Post;

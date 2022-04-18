@@ -19,12 +19,11 @@
                                     <i class="fa fa-twitter"></i> Connect Twitter
                                 </a>
                                 <%} else { %>
-                                    <form action="/twitterLogout" method="POST">
-                                        <button type="submit" class="btn btn-block btn-social btn-twitter">
-                                            <i class="fa fa-twitter"></i>Log out
-                                        </button>
-                                    </form>
-        
+                                <form action="/twitterLogout" method="POST">
+                                    <button type="submit" class="btn btn-block btn-social btn-twitter">
+                                        <i class="fa fa-twitter"></i>Log out
+                                    </button>
+                                </form>
                                 <% } %>
                             </div>
                             <div class="py-3">
@@ -37,8 +36,13 @@
                 </div>
                 <div class="col-6">
                     <div class="pt-5 d-flex flex-row-reverse">
+                        <% if (!twitterAuth) { %>
+                        <button class="btn-secondary rounded px-2 py-1" data-bs-toggle="modal"
+                            data-bs-target="#publishBox" disabled>Create Post</button>
+                        <%} else { %>
                         <button class="btn-primary rounded px-2 py-1" data-bs-toggle="modal"
                             data-bs-target="#publishBox">Create Post</button>
+                        <% } %>
                     </div>
                     <div class="py-4">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -54,8 +58,65 @@
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                ...</div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...
+                                <div class="container-fluid py-4">
+                                    <div class="row border border-1 py-2 px-3">
+                                        Date
+                                    </div>
+                                    <div class="row border border-1">
+                                        <div class="col-8 py-2">
+                                            Message
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="d-flex justify-content-center m-2 p-2">
+                                                <img src="/images/1650272930264_desarrollo_software.jpg" alt=""
+                                                    width="145" height="145">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row border border-1 px-3">
+                                        <div class="col-8 py-2 text-center d-flex align-items-center">
+                                            This post was scheduled for
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="d-flex justify-content-center p-2">
+                                                <div class="px-1">
+                                                    <button class="btn btn-muted border">Delete</button>
+                                                </div>
+                                                <div class="px-1">
+                                                    <button class="btn btn-light border">Edit</button>
+                                                </div>
+                                                <div class="px-1">
+                                                    <button class="btn btn-primary">Share now</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="container-fluid py-4">
+                                    <div class="row border border-1 py-2 px-3">
+                                        Date
+                                    </div>
+                                    <div class="row border border-1">
+                                        <div class="col-8 py-2">
+                                            Message
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="d-flex justify-content-center m-2 p-2">
+                                                <img src="/images/1650272930264_desarrollo_software.jpg" alt=""
+                                                    width="145" height="145">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row border border-1 px-3">
+                                        <div class="col-8 py-2 text-center d-flex align-items-center">
+                                            This post was sent on
+                                        </div>
+                                        <div class="col-4">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -66,56 +127,58 @@
                     <div class="modal fade" id="publishBox" tabIndex="-1" aria-labelledby="publishBoxLabel">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="publishBoxLabel">Publishing</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="pt-2 pb-4">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input py-4 px-4 rounded" type="checkbox"
-                                                id="facebook" value="facebook">
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input py-4 px-4 rounded" type="checkbox"
-                                                id="instragram" value="instragram">
-                                        </div>
+                                <form action="/post/create" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="user_id" value="<%= user.id %>">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="publishBoxLabel">Publishing</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
-                                    <div class="d-flex mb-2">
-                                        <img src="/images/twitter-logo.png" alt="" width="30" height="30">
-                                        <textarea class="form-control" id="post" name="post" rows="2"></textarea>
-                                    </div>
-                                    <div class="d-flex ">
-                                        <input type = "file" class="form-check form-check-inline"/>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="dropdown b-dropdown gl-new-dropdown btn-group">
-                                        <button type="submit" class="btn btn-primary" type="button"
-                                            aria-expanded="false">Add to Queue</button>
-                                        <button type="button"
-                                            class="btn btn-primary dropdown-toggle border-start border-2 boder-white"
-                                            type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                            aria-expanded="false"></button>
-                                        <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
-                                            <li>
-                                                <button type="submit" class="dropdown-item">
-                                                    <span class="px-1">Send now</span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <div>
-                                                    <button type="submit" class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#schedulePost">
-                                                        <span class="px-1">Schedule Post</span>
-                                                    </button>
+                                    <div class="modal-body">
+                                        <div class="mb-2">
+                                            <div class="row">
+                                                <div class="col-1">
+                                                    <img src="/images/twitter-logo.png" alt="" width="35" height="35">
                                                 </div>
-                                            </li>
-                                        </ul>
+                                                <div class="col-11">
+                                                    <textarea class="form-control" id="message" name="message"
+                                                        rows="2"></textarea>
+                                                    <div class="input-group">
+                                                        <input type="file" class="form-control pl-4" id="media"
+                                                            name="media">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-
+                                    <div class="modal-footer">
+                                        <div class="dropdown b-dropdown gl-new-dropdown btn-group">
+                                            <button type="submit" class="btn btn-primary" type="button"
+                                                aria-expanded="false">Add to Queue</button>
+                                            <button type="button"
+                                                class="btn btn-primary dropdown-toggle border-start border-2 boder-white"
+                                                type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                aria-expanded="false"></button>
+                                            <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton1">
+                                                <li>
+                                                    <button type="submit" class="dropdown-item">
+                                                        <span class="px-1"><a href="/post/tweet" class="btn">Send
+                                                                now</a></span>
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <div>
+                                                        <button type="button" class="dropdown-item"
+                                                            data-bs-toggle="modal" data-bs-target="#schedulePost"
+                                                            data-bs-dismiss="modal" aria-label="Close">
+                                                            <span class="px-1">Schedule Post</span>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -126,13 +189,39 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <input type="date" name="postTime" id="postTime">
-                                </div>
-                                <div class="modal-body">
-                                    <input type="time" name="postTime" id="postTime">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary">Save</button>
+                                    <form action="/post/schedule" method="POST" enctype="multipart/form-data">
+                                        <input type="hidden" name="user_id" value="<%= user.id %>">
+                                        <div class="mb-2">
+                                            <div class="row">
+                                                <div class="col-1">
+                                                    <img src="/images/twitter-logo.png" alt="" width="35" height="35">
+                                                </div>
+                                                <div class="col-11">
+                                                    <textarea class="form-control" id="message" name="message"
+                                                        rows="2"></textarea>
+                                                    <div class="input-group">
+                                                        <input type="file" class="form-control-file pl-4" id="media"
+                                                            name="media">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-group mb-3 d-flex justify-content-center">
+                                            <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    width="16" height="16" fill="currentColor"
+                                                    class="bi bi-calendar-event" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
+                                                    <path
+                                                        d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                                                </svg></span>
+                                            <input type="date" name="postDate" id="postDate" class="px-4 py-2">
+                                            <input type="time" name="postTime" id="postTime" class="py-2">
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-primary">Schedule</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

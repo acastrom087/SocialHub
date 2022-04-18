@@ -11,9 +11,8 @@ const salt = 10;
 exports.addUsers = (req, res, next) => {
     bcrypt.hash(req.body.password, salt, (err, encrypted) => {
         if (err) {
-            return res.status(500).json({
-                error: err
-            });
+            return res.render('error', {
+                error: err});
         }
         else {
             const name = req.body.name;

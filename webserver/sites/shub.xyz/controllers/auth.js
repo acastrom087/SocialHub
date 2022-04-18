@@ -90,19 +90,6 @@ exports.getDashboard = async (req, res, next) => {
             console.log(error);
             return res.redirect(callBackURL);
         }
-
-        /*tempClient.login(oauth_verifier)
-            .then(({ client: loggedClient, accessToken, accessSecret }) => {
-                const accToken = accessToken
-                const accSecret = accessSecret
-                const twitterKeys = jwt.sign({ accToken, accSecret }, 'twitterAcc');
-                res.cookie('twitterAuth', twitterKeys, { httpOnly: true, secure: false });
-                return res.redirect(callBackURL);
-            })
-            .catch((error) => {
-                //return res.send('Invalid verifier or access tokens!')
-                console.log(error);
-            });*/
     }
 
     const authLink = await twitterClient.client.generateAuthLink(callBackURL);
