@@ -75,9 +75,16 @@ class Post {
 
 
     static getLastPost = ( funcion) => {
-    db.query("SELECT id, date_format(schedule, '%d') as 'day',date_format(schedule, '%c') as 'month',date_format(schedule, '%Y') as 'year',date_format(schedule, '%H') as 'hour',date_format(schedule, '%i') as 'minute'  FROM socialhub.posts WHERE id=(SELECT max(id)FROM socialhub.posts)", funcion)
-}
+    db.query("SELECT id, date_format(schedule, '%d') as 'day',date_format(schedule, '%c') as 'month',date_format(schedule, '%Y') as 'year',date_format(schedule, '%H') as 'hour',date_format(schedule, '%i') as 'minute'  FROM socialhub.posts WHERE id=(SELECT max(id)FROM socialhub.posts)",funcion)
 }
 
+    static updateStatus = (state, id, funcion) => {
+        db.query("UPDATE socialhub.posts SET status = ? WHERE id = ? ", [state, id], funcion)
+
+}
+
+}
+
+    
 
 module.exports = Post;

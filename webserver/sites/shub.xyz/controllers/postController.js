@@ -65,11 +65,20 @@ const programarPost= (cookie, caption, image) => {
         var minute = data[0].minute;
         console.log(`${hour} ${minute} ${day} ${month}`);
         cron.schedule(`${minute} ${hour} ${day} ${month} *`, () => {
+            console.log('ejecutado')
             tweet(cookie,caption, image);
+            cambiarEstado(data[0].id)
         });
     })
 }
 
+const cambiarEstado =(id) => {
+    var status = 'Sent'
+    Post.updateStatus(status,id,(res) => {
+        console.log(res);
+    });
+
+}
 
 exports.createPostNow = (req, res, next) => {
     const day = new Date();
@@ -95,8 +104,8 @@ exports.createPostNow = (req, res, next) => {
 
 
 exports.delete = (req, res, next) => {
-    Post.delete(req.params.id)
-    res.redirect('/post/post');
+    Post.delete(req.params.id,(res)=> console.log(res))
+    res.redirect('/dashboard');
 }
 
 exports.edit = (req, res, next) => {
@@ -107,32 +116,7 @@ exports.edit = (req, res, next) => {
 
 }
 
-exports.post = (req, res, next) => {
-    var id = req.params.id;
-    Post.findById(id, (err, data) => {
-        var name = data[0].image;
-        var name = data[0].description;
-        loginInstagram(name, description);
-    })
-}
 
-exports.prueba = (req, res, next) => {
-    console.log('prueba')
-    // var fecha = new Date();
-    // var hora_actual = fecha.getHours() + ':' + fecha.getMinutes() + ':' + fecha.getDay() + ':' + fecha.getMonth();
-    // console.log(hora_actual)
-    Post.getLastPost((err, data) => {
-        var day = data[0].day;
-        var month = data[0].month;
-        var hour = data[0].hour;
-        var minute = data[0].minute;
-        console.log(`${hour} ${minute} ${day} ${month}`);
-        // cron.schedule(`${minute} ${hour} ${day} ${month} *`, () => {
-        //     console.log('running a task every minute');
-        // });
-    })
-
-}
 const tweet = async (cookie, caption, image) => {
     if (cookie) {
         const { accToken, accSecret } = auth.twitterCredentials(cookie);
