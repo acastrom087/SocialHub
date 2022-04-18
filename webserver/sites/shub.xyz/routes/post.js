@@ -18,7 +18,7 @@ const upload = multer({ storage: storage });
 
 
 router.post('/create', upload.single("media"), postController.createPost);
-router.post('/schedule', upload.single("media"), postController.createPost);
+router.post('/schedule', upload.single("media"), postController.createPostScheduled);
 
 router.get('/tweet', upload.single("media"), twitterController.tweet);
 

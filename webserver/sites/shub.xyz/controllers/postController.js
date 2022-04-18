@@ -1,5 +1,6 @@
 const Post = require('../models/post.js');
 var cron = require('node-cron');
+const { time } = require('cron');
 require('dotenv').config();
 
 
@@ -24,6 +25,33 @@ exports.createPost = (req, res, next) => {
                 error: err
             });
         });
+}
+
+exports.createPostScheduled = (req, res, next) => { 
+    const tempDate = req.body.postDate;
+    const tempTime = req.body.postTime;
+    const tempDateTime = tempDate + "T" + tempTime;
+    console.log(tempDateTime);
+    process.env.TZ;
+    const fullDate = new Date(tempDateTime);
+    console.log(fullDate);
+
+    const message = req.body.message;
+    const media = req.file.filename;
+    const schedule = fullDate;
+    const status = "onQueue";
+    const user_id = req.body.user_id;
+    /*const post = new Post(message, media, schedule, status, user_id);
+    post
+        .save()
+        .then(result => {
+            res.redirect('/dashboard');
+        })
+        .catch(err => {
+            res.render('error', {
+                error: err
+            });
+        });*/
 }
 
 exports.createPostNow = (message, media, user_id) => {
