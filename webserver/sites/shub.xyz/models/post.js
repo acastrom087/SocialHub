@@ -75,9 +75,9 @@ class Post {
     };
 
 
-    static getLastPost = (id, funcion) => {
-        db.query("SELECT id, date_format(date, '%d') as 'day', date_format(date, '%c') as 'month', date_format(date, '%Y') as 'year', date_format(date, '%H') as 'hour',date_format(date, '%i') as 'minute'  FROM socialhub.posts WHERE id=?", [id], funcion)
-    }
+    static getLastPost = ( funcion) => {
+    db.query("SELECT id, date_format(schedule, '%d') as 'day',date_format(schedule, '%c') as 'month',date_format(schedule, '%Y') as 'year',date_format(schedule, '%H') as 'hour',date_format(schedule, '%i') as 'minute'  FROM socialhub.posts WHERE id=(SELECT max(id)FROM socialhub.posts)", funcion)
+}
 }
 
 module.exports = Post;

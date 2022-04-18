@@ -2,9 +2,12 @@ const Post = require('../models/post.js');
 var cron = require('node-cron');
 const { time } = require('cron');
 require('dotenv').config();
+const auth = require('../authentication/auth.js');
+const twitterClient = require('../authentication/twitterClient.js');
 
 
 exports.createPost = (req, res, next) => {
+    if(req.body.date)
     process.env.TZ;
     var queueTime = new Date();
     queueTime.setMinutes(queueTime.getMinutes() + 10);
@@ -35,7 +38,6 @@ exports.createPostScheduled = (req, res, next) => {
     process.env.TZ;
     const fullDate = new Date(tempDateTime);
     console.log('fulldate ' + fullDate);
-
     const message = req.body.message;
     const media = req.file.filename;
     const schedule = fullDate;
@@ -45,6 +47,7 @@ exports.createPostScheduled = (req, res, next) => {
     post
         .save()
         .then(result => {
+            programarPost(req.cookies.twitterAuth, message, media)
             res.redirect('/dashboard');
         })
         .catch(err => {
@@ -54,15 +57,32 @@ exports.createPostScheduled = (req, res, next) => {
         });
 }
 
-exports.createPostNow = (message, media, user_id) => {
-    const day = new Date();
+const programarPost= (cookie, caption, image) => {
+    Post.getLastPost((err, data) => {
+        var day = data[0].day;
+        var month = data[0].month;
+        var hour = data[0].hour;
+        var minute = data[0].minute;
+        console.log(`${hour} ${minute} ${day} ${month}`);
+        cron.schedule(`${minute} ${hour} ${day} ${month} *`, () => {
+            tweet(cookie,caption, image);
+        });
+    })
+}
 
+
+exports.createPostNow = (req, res, next) => {
+    const day = new Date();
     const schedule = day;
     const status = "Sent";
+    const message = req.body.message;
+    const media = req.file.filename;
+    const user_id = req.body.user_id;
     const post = new Post(message, media, schedule, status, user_id);
     post
         .save()
         .then(result => {
+            tweet(req.cookies.twitterAuth, message, media)
             res.redirect('/dashboard');
         })
         .catch(err => {
@@ -72,23 +92,7 @@ exports.createPostNow = (message, media, user_id) => {
         });
 }
 
-exports.save = (req, res, next) => {
-    const id = req.body.id
-    const date = req.body.date;
-    const image = req.file.filename;
-    const description = req.body.description;
-    const post = new Post(date, image, description, id);
-    post.save(function (err) {
-        if (err) {
-            console.log(err);
-        } else {
 
-            res.redirect('/post/post');
-        }
-
-    })
-
-}
 
 exports.delete = (req, res, next) => {
     Post.delete(req.params.id)
@@ -114,20 +118,37 @@ exports.post = (req, res, next) => {
 
 exports.prueba = (req, res, next) => {
     console.log('prueba')
-    var fecha = new Date();
-    var hora_actual = fecha.getHours() + ':' + fecha.getMinutes() + ':' + fecha.getDay() + ':' + fecha.getMonth();
-    console.log(hora_actual)
-    Post.getLastPost(67, (err, data) => {
+    // var fecha = new Date();
+    // var hora_actual = fecha.getHours() + ':' + fecha.getMinutes() + ':' + fecha.getDay() + ':' + fecha.getMonth();
+    // console.log(hora_actual)
+    Post.getLastPost((err, data) => {
         var day = data[0].day;
         var month = data[0].month;
-        var year = data[0].year;
         var hour = data[0].hour;
         var minute = data[0].minute;
         console.log(`${hour} ${minute} ${day} ${month}`);
-        cron.schedule(`${minute} ${hour} ${day} ${month} *`, () => {
-            console.log('running a task every minute');
-        });
+        // cron.schedule(`${minute} ${hour} ${day} ${month} *`, () => {
+        //     console.log('running a task every minute');
+        // });
     })
+
+}
+const tweet = async (cookie, caption, image) => {
+    if (cookie) {
+        const { accToken, accSecret } = auth.twitterCredentials(cookie);
+        const userTwitterClient = twitterClient.tempClient(accToken, accSecret);
+        
+        try {
+            //const mediaId = await userTwitterClient.v1.uploadMedia();
+            await userTwitterClient.v1.tweet(caption)
+            .then((res) => console.log('Respuesta de promesa ' + res))
+            .catch((err) => console.log('Error de promesa ' + err.message))
+            console.log('nada')
+        } catch (error) {
+            console.log('Error de catch ' + error);
+        }
+    }
+  
 
 }
 

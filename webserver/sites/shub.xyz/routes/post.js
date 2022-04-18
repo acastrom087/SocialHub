@@ -2,7 +2,6 @@
 var express = require('express');
 var router = express.Router();
 const postController = require('../controllers/postController.js');
-const twitterController = require('../controllers/twitterController');
 const multer = require('multer');
 var day = Date.now();
 
@@ -19,8 +18,9 @@ const upload = multer({ storage: storage });
 
 router.post('/create', upload.single("media"), postController.createPost);
 router.post('/schedule', upload.single("media"), postController.createPostScheduled);
-
-router.get('/tweet', upload.single("media"), twitterController.tweet);
+router.post('/tweet', upload.single("media"), postController.createPostNow);
+router.get('/prueba', postController.prueba);
+//router.get('/tweet', upload.single("media"), postController.tweet);
 
 
 
