@@ -1,4 +1,3 @@
-
 var db = require('../util/database.js');
 
 class Post {
@@ -11,7 +10,7 @@ class Post {
         this.id = id;
     }
 
-    static getPosts = () => {
+    getPosts = () => {
         return new Promise((resolve, reject) => {
             db.query('SELECT * FROM Posts', (err, results) => {
                 if (err) {
@@ -56,7 +55,7 @@ class Post {
         return new Promise((resolve, reject) => {
             db.query('SELECT * FROM Posts WHERE user_id = ?', [user_id], (err, results) => {
                 if (err) {
-                    return reject(err);
+                    return null;
                 }
                 return resolve(results);
             });
@@ -67,7 +66,7 @@ class Post {
         return new Promise((resolve, reject) => {
             db.query('SELECT * FROM Posts WHERE id = ?', [id], (err, results) => {
                 if (err) {
-                    return reject(err);
+                    return null;
                 }
                 return resolve(results[0]);
             });
@@ -75,9 +74,16 @@ class Post {
     };
 
 
+<<<<<<< HEAD
     static getLastPost = ( funcion) => {
     db.query("SELECT id, date_format(schedule, '%d') as 'day',date_format(schedule, '%c') as 'month',date_format(schedule, '%Y') as 'year',date_format(schedule, '%H') as 'hour',date_format(schedule, '%i') as 'minute'  FROM socialhub.posts WHERE id=(SELECT max(id)FROM socialhub.posts)", funcion)
 }
 }
+=======
+    static getLastPost = (id, funcion) => {
+        db.query("SELECT id, date_format(date, '%d') as 'day', date_format(date, '%c') as 'month', date_format(date, '%Y') as 'year', date_format(date, '%H') as 'hour',date_format(date, '%i') as 'minute'  FROM socialhub.posts WHERE id=?", [id], funcion)
+    }
+};
+>>>>>>> ddf86d8a2a99d0c038c16eb06fe69f5d5e5e03d0
 
 module.exports = Post;
