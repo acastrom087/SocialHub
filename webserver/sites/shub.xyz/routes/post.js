@@ -7,7 +7,7 @@ var day = Date.now();
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/images');
+    cb(null, 'media');
   },
   filename: function (req, file, cb) {
     cb(null, day + "_" + file.originalname);
@@ -16,10 +16,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-router.post('/create', upload.single("media"), postController.createPost);
-router.post('/send-now', upload.single("media"), postController.createPostNow);
-router.post('/schedule', upload.single("media"), postController.createPostScheduled);
-router.post('/tweet', upload.single("media"), postController.createPostNow);
+router.get('/create', postController.home);
+router.get('/send-now', postController.home);
+router.get('/schedule', postController.home);
+router.post('/create', postController.createPost);
+router.post('/send-now', postController.createPostNow);
+router.post('/schedule', postController.createPostScheduled);
+router.post('/tweet', postController.createPostNow);
 router.get('/delete/:id', postController.delete);
 
 

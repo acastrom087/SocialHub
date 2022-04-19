@@ -1,9 +1,8 @@
 var db = require('../util/database.js');
 
 class Post {
-    constructor(message, media, schedule, status, user_id, id) {
+    constructor(message, schedule, status, user_id, id) {
         this.message = message;
-        this.media = media;
         this.schedule = schedule;
         this.status = status;
         this.user_id = user_id;
@@ -25,8 +24,8 @@ class Post {
     save = () => {
         return new Promise((resolve, reject) => {
             if (this.id > 0) {
-                db.query('UPDATE Posts SET message = ?, media = ?, schedule = ?, status = ?, user_id = ? WHERE id = ?',
-                    [this.message, this.media, this.schedule, this.status, this.user_id, this.id], (err, results) => {
+                db.query('UPDATE Posts SET message = ?, schedule = ?, status = ?, user_id = ? WHERE id = ?',
+                    [this.message, this.schedule, this.status, this.user_id, this.id], (err, results) => {
                         if (err) {
                             return reject(err);
                         }
@@ -34,8 +33,8 @@ class Post {
                     });
             }
             else {
-                db.query('INSERT INTO Posts (message, media, schedule, status, user_id) VALUES (?, ?, ?, ?, ?)',
-                    [this.message, this.media, this.schedule, this.status, this.user_id], (err, results) => {
+                db.query('INSERT INTO Posts (message, schedule, status, user_id) VALUES (?, ?, ?, ?)',
+                    [this.message, this.schedule, this.status, this.user_id], (err, results) => {
                         if (err) {
                             return reject(err);
                         }
